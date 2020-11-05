@@ -2,7 +2,8 @@
 import java.util.Scanner;
 
 public class Main {
-
+    // Draw 3 different states of the door 
+    // closed, open with no car, open with car
     public static void drawDoor(Door door){
         System.out.println("    ");
         if (door.isOpen() && door.hasCar()){
@@ -26,42 +27,50 @@ public class Main {
 
     }
 
-
+    // Calls draw function for all three doors.
     public static void drawDoors(Door one, Door two, Door three){
         drawDoor(one);
         drawDoor(two);
         drawDoor(three);
     }
-
+    // The meat of the program
     public static void montyHall(){
+        // User input object
         Scanner in = new Scanner(System.in);
         //Setup
         Door   one   = new Door(1);
         Door   two   = new Door(2);
         Door   three = new Door(3);
-
+        
+        boolean error = false;
         int d = 0;
         Random num   = new Random(0, 2);
+        // Hide the car and hold so the program doesn't open it.
+        // I saw this return a -1 once so it's a loop just in case.
+        do{
+            error = false;
+            d = num.getNumber();
+            if (d == 0){
+                one.setCar();
+                one.setHold();
+            }
 
-        d = num.getNumber();
-        if (d == 0){
-            one.setCar();
-            one.setHold();
-        }
+            else if (d == 1){
+                two.setCar();
+                two.setHold();
+            }
 
-        else if (d == 1){
-            two.setCar();
-            two.setHold();
-        }
+            else if (d == 2){
+                three.setCar();
+                three.setHold();
+            }
 
-        else if (d == 2){
-            three.setCar();
-            three.setHold();
-        }
-
-        else{
-            System.out.println("Error: Random object returned: " + d);
-        }
+            else{
+                System.out.println("Error: Random object returned: " + d);
+                num.newNumber();
+                error = true;
+            }
+        }while(error);
         
         drawDoors(one, two, three);
 
@@ -72,7 +81,7 @@ public class Main {
         System.out.println("Which door do you think the car is behind?"); 
         System.out.println("1, 2, or 3");
         door = in.nextInt();
-
+        //Hold means the program can't open that door.
         if ((door == 1) && !(one.getHold())){
             one.setHold();
         }
@@ -128,7 +137,8 @@ public class Main {
         }
 
         drawDoors(one, two, three);
-
+        //Final choice (p.s. if you change doors your 
+        //               chances of getting the car are 2 in 3.)
         System.out.println("Now that there are only two doors remaining,");
         System.out.println("would you like to stay with door " + door);
         System.out.println("or would you like to change doors?");
@@ -198,22 +208,30 @@ public class Main {
                 door = in.nextInt();
             }
         }
-        
-
-
-        
-
-
-
-
+        in.close();        
 
     }
 
 
-
+    // Main puts monty hall in a loop for optional repeated guessing games.
     public static void main(String[] args) {
+        //loop sandwich
+        boolean guess = true;
+        Scanner answer = new Scanner(System.in);
+        char A = 'y';
+        while(guess){
+            //Program meat
+            montyHall();
 
-        montyHall();
+            System.out.println("Would you like to guess again?");
+            System.out.println("(Y/N)");
+            A = answer.next().charAt(0);
+            if (A == 'n'){
+                guess = false;
+            }
+
+        }
+        answer.close();
 
         
     }
