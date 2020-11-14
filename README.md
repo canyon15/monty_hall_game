@@ -12,3 +12,6 @@ Made in java using visual studio code.
 
 ## Running
 It is recommended you expand your command line terminal to the hight of your screen.
+
+
+![image](https://user-images.githubusercontent.com/71223581/99153880-d3650780-2668-11eb-85e5-99a30049e43b.png)
